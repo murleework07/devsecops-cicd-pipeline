@@ -1,0 +1,20 @@
+services:
+  jenkins:
+    build: ./jenkins
+    container_name: jenkins
+    user: root            # lets Jenkins use the Docker socket (fine for a local lab)
+    ports: ["8080:8080"]
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports: ["9000:9000"]
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+
+volumes:
+  jenkins_home: {}
+  sonar_data: {}

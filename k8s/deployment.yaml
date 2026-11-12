@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devsecops-app
+  labels: { app: devsecops-app }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: devsecops-app }
+  template:
+    metadata:
+      labels: { app: devsecops-app }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: app
+          image: IMAGE_PLACEHOLDER
+          ports:
+            - containerPort: 5000
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits:   { cpu: "250m", memory: "192Mi" }
+          securityContext:
+            allowPrivilegeEscalation: false
+          readinessProbe:
+            httpGet: { path: /health, port: 5000 }
+          livenessProbe:
+            httpGet: { path: /health, port: 5000 }

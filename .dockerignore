@@ -1,0 +1,7 @@
+.git
+.venv
+terraform
+k8s
+k8s-admin
+jenkins
+*.md
